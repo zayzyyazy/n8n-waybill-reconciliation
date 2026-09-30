@@ -1,0 +1,15 @@
+{
+  "waybill_id": "WB-9001",
+  "shopify_order_id": "EXAMPLE_ORDER_ID",
+  "shopify_order_name": "EXAMPLE_ORDER",
+  "customer_email": null,
+  "destination_country": "DE",
+  "shopify_fulfillment_id": "EXAMPLE_FULFILLMENT_ID",
+  "shopify_tracking_number": "EXAMPLE_TRACKING_NUMBER",
+  "carrier_tracking_number": "EXAMPLE_TRACKING_NUMBER",
+  "latest_event_code": "delivered",
+  "latest_event_at": "2026-01-01T10:00:00.000Z",
+  "days_since_last_event": 0,
+  "pod_available": false,
+  "delivery_anomaly": null
+}

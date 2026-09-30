@@ -1,0 +1,27 @@
+{
+  "waybill_id": "WB-9001",
+  "shopify_order_name": "EXAMPLE_ORDER",
+  "status": "EXCEPTION",
+  "status_label": "ACTION REQUIRED",
+  "summary": "Order WB-9001 requires attention. At least one shipment has a confirmed operational exception.",
+  "shipment_count": 1,
+  "shipments": [
+    {
+      "shipment": 1,
+      "tracking_number": "EXAMPLE_TRACKING_NUMBER",
+      "status": "EXCEPTION",
+      "latest_event": "delivered",
+      "latest_event_at": "2026-01-01T10:00:00.000Z",
+      "issue": "POD_DOCUMENT_MISSING",
+      "document_status": "MISSING",
+      "recommended_action": "CREATE_SUPPORT_TASK"
+    }
+  ],
+  "issues": [
+    "POD_DOCUMENT_MISSING"
+  ],
+  "recommended_actions": [
+    "CREATE_SUPPORT_TASK"
+  ],
+  "requires_attention": true
+}
