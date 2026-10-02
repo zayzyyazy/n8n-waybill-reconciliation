@@ -1,18 +1,14 @@
 # WAYBILL — Multi-System Shipment Reconciliation
 
-An n8n workflow that reconciles Shopify fulfillments, carrier tracking, and supporting documents into an actionable order status.
+**Order status is split across Shopify, the carrier and a folder of delivery documents. WAYBILL is an n8n workflow that pulls all three together, applies explicit rules, and tells you which orders need attention and why.**
 
-![WAYBILL architecture](docs/architecture.png)
-
-*Original architecture graphic. The exported rules below define the precise status boundaries: missing required documents become EXCEPTION.*
-
-## The problem
-
-Order information is split across systems. Shopify records the fulfillment, the carrier records delivery events, and supporting documents live elsewhere. Checking all three manually means repeating the same lookups and deciding which source to trust when they disagree.
-
-WAYBILL brings those records together, evaluates explicit rules, and reports what needs attention. This repository contains a portfolio implementation using a Shopify fixture query and a configurable carrier endpoint; it does not claim production deployment or measured business results.
-
-## The workflow
+| | |
+| --- | --- |
+| **Connects** | Shopify Admin GraphQL · carrier tracking REST API · Google Drive |
+| **Decides with** | explicit JavaScript rules, no AI |
+| **Returns** | `HEALTHY` / `WATCH` / `EXCEPTION` per order, with issue codes and recommended actions |
+| **Handles failure** | failed carrier calls get their own branch → `WATCH` + `RETRY_CARRIER` instead of a silent gap |
+| **Status** | portfolio implementation with synthetic fixtures; not a production deployment, no measured business results |
 
 ```text
 Order lookup form → Shopify GraphQL → shipment extraction
@@ -22,6 +18,21 @@ Order lookup form → Shopify GraphQL → shipment extraction
 
 Carrier request failure → recover shipment → WATCH / RETRY_CARRIER
 ```
+
+![WAYBILL architecture](docs/architecture.png)
+
+*Original architecture graphic. The exported rules define the precise status boundaries: a missing required document becomes `EXCEPTION`, not `WATCH`.*
+
+## What's in this repo
+
+- [`workflow/waybill.json`](workflow/waybill.json): the exported n8n workflow (inactive, credentials removed)
+- [`tests/smoke.mjs`](tests/smoke.mjs): runs the exported rule and normalization code against synthetic cases
+- [`examples/`](examples/): a synthetic input and the output the workflow code produces for it
+- [`docs/implementation-notes.md`](docs/implementation-notes.md): carrier contract and known limits
+
+## Why this exists
+
+Checking an order manually means looking it up in three systems and deciding which source to trust when they disagree. That repeated lookup-and-compare is the work WAYBILL automates. The judgment calls stay explicit: every status comes with the issue codes that caused it.
 
 ## How it works
 
